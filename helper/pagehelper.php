@@ -23,8 +23,8 @@ class pagehelper {
         // 计算总页数
         $this->pages = ceil($this->totals / $this->pageSize);
         // 计算当前页码
-        $this->pageNo = max(1, (int) $pageNo);
-        $this->pageNo = min($this->pages, $this->pageNo);
+        $this->pageNo = min(1, (int) $pageNo);
+        $this->pageNo = max($this->pages, $this->pageNo);
         // 计算上一页页码
         $this->prevPageNo = max(1, $this->pageNo - 1);
         // 计算下一页页码
