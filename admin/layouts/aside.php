@@ -17,7 +17,7 @@ if(basename($_SERVER["PHP_SELF"]) == basename(__FILE__)) exit("Access denied");
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="#" class="nav-link"> <i class="nav-icon bi bi-people-fill"></i>
+                    <a href="/admin/adminuserlist.php" class="nav-link"> <i class="nav-icon bi bi-people-fill"></i>
                         <p>管理用户管理</p>
                     </a>
                 </li>

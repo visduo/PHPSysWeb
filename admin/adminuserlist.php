@@ -7,16 +7,14 @@ $mysqlObj = new sqlhelper();
 // 拼接查询条件
 $sqlStr_search = " WHERE 1=1";
 if (request::get("searchAccount") != "") {
-    $sqlStr_search .= " AND user.`account` LIKE '%".request::get("searchAccount")."%'";
+    $sqlStr_search .= " AND `account` LIKE '%".request::get("searchAccount")."%'";
 }
-if (request::get("searchClientip") != "") {
-    $sqlStr_search .= " AND log.`client_ip` LIKE '%".request::get("searchClientip")."%'";
+if (request::get("searchRemarks") != "") {
+    $sqlStr_search .= " AND `remarks` LIKE '%".request::get("searchRemarks")."%'";
 }
 
 // 查询数据总数
-$sqlStr_count = "SELECT COUNT(1) AS count FROM `sys_admin_user_log` AS log
-                    LEFT JOIN `sys_admin_user` AS user
-                    ON log.`user_id` = user.`id`"
+$sqlStr_count = "SELECT COUNT(1) AS count FROM `sys_admin_user` AS log"
                     .$sqlStr_search;
 $totals = $mysqlObj->executeQuery($sqlStr_count)[0]["count"];
 
@@ -24,11 +22,8 @@ $totals = $mysqlObj->executeQuery($sqlStr_count)[0]["count"];
 $pagehelper = new pagehelper($totals, 10, request::get("pageNo"));
 
 // 查询数据列表
-$sqlStr_list = "SELECT log.*, user.`account` FROM `sys_admin_user_log` AS log
-                    LEFT JOIN `sys_admin_user` AS user
-                    ON log.`user_id` = user.`id`"
+$sqlStr_list = "SELECT * FROM `sys_admin_user`"
                     .$sqlStr_search
-                    ." ORDER BY `create_time` DESC"
                     ." LIMIT ".$pagehelper->limit." ,".$pagehelper->pageSize;
 $dataList = $mysqlObj->executeQuery($sqlStr_list);
 ?>
@@ -36,7 +31,7 @@ $dataList = $mysqlObj->executeQuery($sqlStr_list);
 <html lang="cn">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <title>管理用户登录日志 - 数据管理系统(管理端)</title>
+    <title>管理用户列表 - 数据管理系统(管理端)</title>
     <?php require_once $_SERVER['DOCUMENT_ROOT'] . "/admin/layouts/head.php";?>
 </head>
 <body class="layout-fixed sidebar-expand-lg bg-body-tertiary">
@@ -50,7 +45,7 @@ $dataList = $mysqlObj->executeQuery($sqlStr_list);
                 <div class="container-fluid">
                     <div class="row">
                         <div class="col-12">
-                            <h3>管理用户登录日志</h3>
+                            <h3>管理用户列表</h3>
                         </div>
                     </div>
                 </div>
@@ -70,13 +65,13 @@ $dataList = $mysqlObj->executeQuery($sqlStr_list);
                                                     <input type="text" class="form-control" name="searchAccount" value="<?php echo request::get("searchAccount")?>">
                                                 </div>
                                             </div>
-                                            <div class="col-lg-3 col-12 mb-3">
+                                            <div class="col-lg-3 col-12 mb-3s">
                                                 <div class="input-group">
-                                                    <span class="input-group-text">登录IP</span>
-                                                    <input type="text" class="form-control" name="searchClientip" value="<?php echo request::get("searchClientip")?>">
+                                                    <span class="input-group-text">用户备注</span>
+                                                    <input type="text" class="form-control" name="searchRemarks" value="<?php echo request::get("searchRemarks")?>">
                                                 </div>
                                             </div>
-                                            <div class="col-lg-3 col-6 mb-3">
+                                            <div class="col-lg-3 col-12 mb-3">
                                                 <button type="submit" class="btn btn-primary">搜索</button>
                                             </div>
                                         </div>
@@ -86,11 +81,19 @@ $dataList = $mysqlObj->executeQuery($sqlStr_list);
                                     <table class="table table-striped">
                                         <thead>
                                         <tr>
+                                            <th colspan="8">
+                                                <a class="btn btn-sm btn-secondary" href="/admin/addadminuser.php"><i class="bi bi-plus-square-fill"></i> 新增</a>
+                                            </th>
+                                        </tr>
+                                        <tr>
                                             <th>#</th>
                                             <th>用户账号</th>
-                                            <th>客户端IP</th>
-                                            <th>客户端UA</th>
-                                            <th>登录时间</th>
+                                            <th>邮箱地址</th>
+                                            <th>手机号码</th>
+                                            <th>QQ号码</th>
+                                            <th>用户备注</th>
+                                            <th>用户状态</th>
+                                            <th>操作</th>
                                         </tr>
                                         </thead>
                                         <tbody>
@@ -100,9 +103,23 @@ $dataList = $mysqlObj->executeQuery($sqlStr_list);
                                                 echo "<tr>";
                                                 echo "<td style='width: 15px;'>".($key+1)."</td>";
                                                 echo "<td>".$value["account"]."</td>";
-                                                echo "<td>".$value["client_ip"]."</td>";
-                                                echo "<td style='width: 600px;'>".$value["client_ua"]."</td>";
-                                                echo "<td>".datehelper::toDateTime($value["create_time"])."</td>";
+                                                echo "<td>".$value["email"]."</td>";
+                                                echo "<td>".$value["telephone"]."</td>";
+                                                echo "<td>".$value["qqnumber"]."</td>";
+                                                echo "<td>".$value["remarks"]."</td>";
+                                                
+                                                // 判断用户状态
+                                                if ($value["status"] == 1) {
+                                                    echo "<td><span class='badge text-bg-success'>正常</span></td>";
+                                                } else {
+                                                    echo "<td><span class='badge text-bg-danger'>禁用</span></td>";
+                                                }
+                                                
+                                                echo "<td>
+                                                    <a class='link-underline link-underline-opacity-0' href='/admin/editadminuser.php?id=".$value["id"]."'><i class='bi bi-pencil-square'></i> 修改</a>
+                                                    ｜
+                                                    <a class='link-underline link-underline-opacity-0' href='javascript:deleteById(".$value["id"].");'><i class='bi bi-trash-fill'></i> 删除</a>
+                                                </td>";
                                                 echo "</tr>";
                                             }
                                         ?>
@@ -131,6 +148,10 @@ $dataList = $mysqlObj->executeQuery($sqlStr_list);
         function setPageNo(pageNo) {
             $("#searchForm input[name='pageNo']").val(pageNo);
             $("#searchForm").submit();
+        }
+        
+        function deleteById(id) {
+        
         }
     </script>
 </body>

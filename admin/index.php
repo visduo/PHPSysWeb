@@ -76,27 +76,27 @@ require_once $_SERVER['DOCUMENT_ROOT']."/admin/authorize.php";
                     <div class="row">
                         <div class="col-12">
                             <div class="card card-primary card-outline mb-4">
-                                <div class="card-header">
+                                <div class="card-header pb-0">
                                     <div class="row">
-                                        <div class="col-lg-3 col-6">
+                                        <div class="col-lg-3 col-6 mb-3">
                                             <div class="input-group">
                                                 <span class="input-group-text">关键词</span>
                                                 <input type="text" class="form-control">
                                             </div>
                                         </div>
-                                        <div class="col-lg-3 col-6">
+                                        <div class="col-lg-3 col-6 mb-3">
                                             <div class="input-group">
                                                 <span class="input-group-text">关键词</span>
                                                 <input type="text" class="form-control">
                                             </div>
                                         </div>
-                                        <div class="col-lg-3 col-6">
+                                        <div class="col-lg-3 col-6 mb-3">
                                             <div class="input-group">
                                                 <span class="input-group-text">关键词</span>
                                                 <input type="text" class="form-control">
                                             </div>
                                         </div>
-                                        <div class="col-lg-3 col-6">
+                                        <div class="col-lg-3 col-6 mb-3">
                                             <button class="btn btn-primary">搜索</button>
                                         </div>
                                     </div>
