@@ -55,7 +55,6 @@ if(request::post("action") == "updateInfo") {
 <!DOCTYPE html>
 <html lang="cn">
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <title>个人中心 - 数据管理系统</title>
     <?php require_once $_SERVER['DOCUMENT_ROOT'] . "/admin/layouts/head.php";?>
 </head>
@@ -87,15 +86,15 @@ if(request::post("action") == "updateInfo") {
                                     <div class="row">
                                         <div class="col-12">
                                             <div class="mb-3">
-                                                <label class="form-label">QQ号码</label>
+                                                <label class="form-label">QQ号码 <span class="text-danger">*</span></label>
                                                 <input type="text" class="form-control" placeholder="请输入QQ号码" id="qqnumber" value="<?php echo $_SESSION["adminUser"]["qqnumber"] ?>">
                                             </div>
                                             <div class="mb-3">
-                                                <label class="form-label">手机号码</label>
+                                                <label class="form-label">手机号码 <span class="text-danger">*</span></label>
                                                 <input type="text" class="form-control" placeholder="请输入手机号码" id="telephone" value="<?php echo $_SESSION["adminUser"]["telephone"] ?>">
                                             </div>
                                             <div class="mb-3">
-                                                <label class="form-label">邮箱地址</label>
+                                                <label class="form-label">邮箱地址 <span class="text-danger">*</span></label>
                                                 <input type="text" class="form-control" placeholder="请输入邮箱地址" id="email" value="<?php echo $_SESSION["adminUser"]["email"] ?>">
                                             </div>
                                         </div>
@@ -115,15 +114,15 @@ if(request::post("action") == "updateInfo") {
                                     <div class="row">
                                         <div class="col-12">
                                             <div class="mb-3">
-                                                <label class="form-label">旧密码</label>
+                                                <label class="form-label">旧密码 <span class="text-danger">*</span></label>
                                                 <input type="password" class="form-control" placeholder="请输入旧密码" id="oldPassword">
                                             </div>
                                             <div class="mb-3">
-                                                <label class="form-label">新密码</label>
+                                                <label class="form-label">新密码 <span class="text-danger">*</span></label>
                                                 <input type="password" class="form-control" placeholder="请输入新密码" id="newPassword">
                                             </div>
                                             <div class="mb-3">
-                                                <label class="form-label">再次确认新密码</label>
+                                                <label class="form-label">再次确认新密码 <span class="text-danger">*</span></label>
                                                 <input type="password" class="form-control" placeholder="请再次确认新密码" id="rePassword">
                                             </div>
                                         </div>

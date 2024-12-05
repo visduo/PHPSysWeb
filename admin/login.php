@@ -6,7 +6,7 @@ if(isset($_SESSION["adminUser"])) {
     header("Location: /admin/index.php");
 }
 
-if(request::post("action")) {
+if(request::post("action") == "login") {
     // 处理登录请求
     $mysqlObj = new sqlhelper();
     
@@ -52,7 +52,6 @@ if(request::post("action")) {
 <!DOCTYPE html>
 <html lang="cn">
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <title>管理用户登录 - 数据管理系统(管理端)</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/source-sans-3@5.0.12/index.css">

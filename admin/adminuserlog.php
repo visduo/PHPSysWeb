@@ -35,7 +35,6 @@ $dataList = $mysqlObj->executeQuery($sqlStr_list);
 <!DOCTYPE html>
 <html lang="cn">
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <title>管理用户登录日志 - 数据管理系统(管理端)</title>
     <?php require_once $_SERVER['DOCUMENT_ROOT'] . "/admin/layouts/head.php";?>
 </head>
@@ -82,7 +81,7 @@ $dataList = $mysqlObj->executeQuery($sqlStr_list);
                                         </div>
                                     </form>
                                 </div>
-                                <div class="card-body p-0">
+                                <div class="card-body p-0 table-responsive text-nowrap">
                                     <table class="table table-striped">
                                         <thead>
                                         <tr>
@@ -101,7 +100,7 @@ $dataList = $mysqlObj->executeQuery($sqlStr_list);
                                                 echo "<td style='width: 15px;'>".($key+1)."</td>";
                                                 echo "<td>".$value["account"]."</td>";
                                                 echo "<td>".$value["client_ip"]."</td>";
-                                                echo "<td style='width: 600px;'>".$value["client_ua"]."</td>";
+                                                echo "<td style='width: 600px;' class='text-wrap'>".$value["client_ua"]."</td>";
                                                 echo "<td>".datehelper::toDateTime($value["create_time"])."</td>";
                                                 echo "</tr>";
                                             }

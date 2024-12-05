@@ -5,7 +5,6 @@ require_once $_SERVER['DOCUMENT_ROOT']."/admin/authorize.php";
 <!DOCTYPE html>
 <html lang="cn">
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <title>首页 - 数据管理系统(管理端)</title>
     <?php require_once $_SERVER['DOCUMENT_ROOT'] . "/admin/layouts/head.php";?>
 </head>
@@ -177,7 +176,7 @@ require_once $_SERVER['DOCUMENT_ROOT']."/admin/authorize.php";
                                                 <label class="form-label">表单元素</label>
                                                 <input type="text" class="form-control">
                                             </div>
-                                            <div>
+                                            <div class="mb-3">
                                                 <label class="form-label">表单元素</label>
                                                 <select class="form-select">
                                                     <option selected>Open this select menu</option>
