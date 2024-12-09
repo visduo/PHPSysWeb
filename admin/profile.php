@@ -3,7 +3,6 @@ require_once $_SERVER['DOCUMENT_ROOT']."/helper/common.php";
 require_once $_SERVER['DOCUMENT_ROOT']."/admin/authorize.php";
 
 if(request::post("action") == "updateInfo") {
-    // 修改基本信息
     $mysqlObj = new sqlhelper();
     
     $qqnumber = request::post("qqnumber");
@@ -23,7 +22,6 @@ if(request::post("action") == "updateInfo") {
     
     response::success("修改成功");
 } else if(request::post("action") == "updatePassword") {
-    // 修改用户密码
     $mysqlObj = new sqlhelper();
     
     $oldPassword = request::post("oldPassword");

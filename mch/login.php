@@ -1,9 +1,9 @@
 <?php
 require_once $_SERVER["DOCUMENT_ROOT"]."/helper/common.php";
 
-if(isset($_SESSION["adminUser"])) {
+if(isset($_SESSION["mchUser"])) {
     // 已经登录，跳转到后台首页
-    header("Location: /admin/index.php");
+    header("Location: /mch/index.php");
 }
 
 if(request::post("action") == "login") {
@@ -12,30 +12,30 @@ if(request::post("action") == "login") {
     $account = request::post("account");
     $password = request::post("password");
 
-    $sqlStr = "SELECT * FROM `sys_admin_user` WHERE `account` = '$account'";
+    $sqlStr = "SELECT * FROM `sys_mch_user` WHERE `account` = '$account'";
     $result = $mysqlObj->executeQuery($sqlStr);
 
     // 数据库查询结果数组长度为0，即账号不存在
     if(count($result) != 0) {
-        $adminUser = $result[0];
+        $mchUser = $result[0];
         
         // 密码校验
-        if(encrypt::md5($password, $adminUser["salts"]) == $adminUser["password"]) {
+        if(encrypt::md5($password, $mchUser["salts"]) == $mchUser["password"]) {
             // 用户状态校验
-            if($adminUser["status"] != 1) {
+            if($mchUser["status"] != 1) {
                 response::falure("该用户已被禁用");
             }
             
-            // 校验通过，将管理用户对象存入会话
-            $_SESSION["adminUser"] = $adminUser;
+            // 校验通过，将平台用户对象存入会话
+            $_SESSION["mchUser"] = $mchUser;
             
             // 保存登录日志
-            $userId = $adminUser["id"];
+            $userId = $mchUser["id"];
             $clientip = client::ip();
             $clientua = client::ua();
             $createTime = datehelper::currentSeconds();
             
-            $sqlStr = "INSERT INTO `sys_admin_user_log` (`user_id`, `client_ip`, `client_ua`, `create_time`)
+            $sqlStr = "INSERT INTO `sys_mch_user_log` (`user_id`, `client_ip`, `client_ua`, `create_time`)
                         VALUES ('$userId', '$clientip', '$clientua', '$createTime')";
             $mysqlObj->executeUpdate($sqlStr);
             
@@ -51,7 +51,7 @@ if(request::post("action") == "login") {
 <!DOCTYPE html>
 <html lang="cn">
 <head>
-    <title>管理用户登录 - 数据管理系统(管理端)</title>
+    <title>平台用户登录 - 数据管理系统(平台端)</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/source-sans-3@5.0.12/index.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/overlayscrollbars@2.3.0/styles/overlayscrollbars.min.css">
@@ -62,7 +62,7 @@ if(request::post("action") == "login") {
     <div class="login-box">
         <div class="card card-outline card-primary">
             <div class="card-header text-center">
-                <h2 class="mb-0"><b>数据管理系统(管理端)</b></h2>
+                <h2 class="mb-0"><b>数据管理系统(平台端)</b></h2>
             </div>
             <div class="card-body login-card-body">
                 <p class="login-box-msg">欢迎您，请先登录</p>
@@ -89,6 +89,7 @@ if(request::post("action") == "login") {
                         <div class="col-12">
                             <div class="d-grid gap-2">
                                 <button type="button" class="btn btn-primary" id="submit">登录</button>
+                                <a class="btn btn-primary" href="/mch/register.php">注册</a>
                             </div>
                         </div>
                     </div>
@@ -126,7 +127,7 @@ if(request::post("action") == "login") {
                 success: function (responseData) {
                     if(responseData.code == 200) {
                         alert("登录成功");
-                        window.location.href = "/admin/index.php";
+                        window.location.href = "/mch/index.php";
                     } else {
                         alert(responseData.message);
                     }

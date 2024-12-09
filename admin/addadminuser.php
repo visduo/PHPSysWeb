@@ -3,7 +3,6 @@ require_once $_SERVER['DOCUMENT_ROOT'] . "/helper/common.php";
 require_once $_SERVER['DOCUMENT_ROOT'] . "/admin/authorize.php";
 
 if(request::post("action") == "add") {
-    // 新增管理用户
     $mysqlObj = new sqlhelper();
     
     $account = request::post("account");

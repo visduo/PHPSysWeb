@@ -70,7 +70,7 @@ if(basename($_SERVER["PHP_SELF"]) == basename(__FILE__)) exit("Access denied");
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="#" class="nav-link"> <i class="nav-icon bi bi-file-text"></i>
+                            <a href="/admin/mchuserlog.php" class="nav-link"> <i class="nav-icon bi bi-file-text"></i>
                                 <p>平台用户登录日志</p>
                             </a>
                         </li>
