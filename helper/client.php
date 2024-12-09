@@ -1,4 +1,6 @@
 <?php
+if(basename($_SERVER["PHP_SELF"]) == basename(__FILE__)) exit("Access denied");
+
 // 客户端信息工具类
 class client {
     

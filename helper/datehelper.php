@@ -1,4 +1,6 @@
 <?php
+if(basename($_SERVER["PHP_SELF"]) == basename(__FILE__)) exit("Access denied");
+
 // 日期时间工具类
 class datehelper {
     

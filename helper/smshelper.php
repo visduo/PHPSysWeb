@@ -1,4 +1,6 @@
 <?php
+if(basename($_SERVER["PHP_SELF"]) == basename(__FILE__)) exit("Access denied");
+
 require_once $_SERVER["DOCUMENT_ROOT"]."/helper/sqlhelper.php";
 require_once $_SERVER["DOCUMENT_ROOT"]."/helper/client.php";
 require_once $_SERVER["DOCUMENT_ROOT"]."/helper/datehelper.php";
