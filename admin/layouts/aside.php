@@ -50,7 +50,7 @@ if(basename($_SERVER["PHP_SELF"]) == basename(__FILE__)) exit("Access denied");
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="#" class="nav-link"> <i class="nav-icon bi bi-mailbox2"></i>
+                            <a href="/admin/emailsmsconf.php" class="nav-link"> <i class="nav-icon bi bi-mailbox2"></i>
                                 <p>邮箱发信接口配置</p>
                             </a>
                         </li>

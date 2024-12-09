@@ -27,7 +27,6 @@ if(count($result) != 0) {
 }
 
 if($action == "edit") {
-    // 修改数据
     $password = request::post("password");
     $email = request::post("email");
     $telephone = request::post("telephone");

@@ -25,6 +25,10 @@ if(request::post("action") == "delete") {
     $sqlStr = "DELETE FROM sys_admin_user WHERE id = '$userId'";
     $mysqlObj->executeUpdate($sqlStr);
     
+    // 删除该用户的登录日志
+    $sqlStr = "DELETE FROM sys_admin_user_log WHERE user_id = '$userId'";
+    $mysqlObj->executeUpdate($sqlStr);
+    
     response::success("删除成功");
 }
 

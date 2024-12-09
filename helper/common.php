@@ -10,6 +10,7 @@ require_once $_SERVER["DOCUMENT_ROOT"]."/helper/encrypt.php";
 require_once $_SERVER["DOCUMENT_ROOT"]."/helper/client.php";
 require_once $_SERVER["DOCUMENT_ROOT"]."/helper/datehelper.php";
 require_once $_SERVER["DOCUMENT_ROOT"]."/helper/pagehelper.php";
+require_once $_SERVER["DOCUMENT_ROOT"]."/helper/smshelper.php";
 
 // 开启会话
 session_start();
