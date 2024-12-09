@@ -8,10 +8,10 @@ $action = request::post("action");
 $userId = request::get("id");
 if(!$userId || $userId == "") {
     // 未传递用户id
-    $action == "edit" ? response::falure("用户id不能为空") : header("Location: /admin/adminuserlist.php");
+    $action == "edit" ? response::failure("用户id不能为空") : header("Location: /admin/adminuserlist.php");
 } else if($userId == $_SESSION["adminUser"]["id"]) {
     // 不能修改自己
-    $action == "edit" ? response::falure("禁止修改") : header("Location: /admin/adminuserlist.php");
+    $action == "edit" ? response::failure("禁止修改") : header("Location: /admin/adminuserlist.php");
 }
 
 // 查询回显数据
@@ -22,7 +22,7 @@ if(count($result) != 0) {
     $adminUser = $result[0];
 } else {
     // 用户id不存在
-    $action == "edit" ? response::falure("用户id不存在") : header("Location: /admin/adminuserlist.php");
+    $action == "edit" ? response::failure("用户id不存在") : header("Location: /admin/adminuserlist.php");
     exit();
 }
 

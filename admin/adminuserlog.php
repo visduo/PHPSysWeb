@@ -7,16 +7,16 @@ $mysqlObj = new sqlhelper();
 // 拼接查询条件
 $sqlStr_search = " WHERE 1=1";
 if (request::get("searchAccount") != "") {
-    $sqlStr_search .= " AND user.`account` LIKE '%".request::get("searchAccount")."%'";
+    $sqlStr_search .= " AND user.account LIKE '%".request::get("searchAccount")."%'";
 }
 if (request::get("searchClientip") != "") {
-    $sqlStr_search .= " AND log.`client_ip` LIKE '%".request::get("searchClientip")."%'";
+    $sqlStr_search .= " AND log.client_ip LIKE '%".request::get("searchClientip")."%'";
 }
 
 // 查询数据总数
-$sqlStr_count = "SELECT COUNT(1) AS count FROM `sys_admin_user_log` AS log
-                    LEFT JOIN `sys_admin_user` AS user
-                    ON log.`user_id` = user.`id`"
+$sqlStr_count = "SELECT COUNT(1) AS count FROM sys_admin_user_log AS log
+                    LEFT JOIN sys_admin_user AS user
+                    ON log.user_id = user.id"
                     .$sqlStr_search;
 $totals = $mysqlObj->executeQuery($sqlStr_count)[0]["count"];
 
@@ -24,11 +24,11 @@ $totals = $mysqlObj->executeQuery($sqlStr_count)[0]["count"];
 $pagehelper = new pagehelper($totals, 10, request::get("pageNo"));
 
 // 查询数据列表
-$sqlStr_list = "SELECT log.*, user.`account` FROM `sys_admin_user_log` AS log
-                    LEFT JOIN `sys_admin_user` AS user
-                    ON log.`user_id` = user.`id`"
+$sqlStr_list = "SELECT log.*, user.account FROM sys_admin_user_log AS log
+                    LEFT JOIN sys_admin_user AS user
+                    ON log.user_id = user.id"
                     .$sqlStr_search
-                    ." ORDER BY `create_time` DESC"
+                    ." ORDER BY create_time DESC"
                     ." LIMIT ".$pagehelper->limit." ,".$pagehelper->pageSize;
 $dataList = $mysqlObj->executeQuery($sqlStr_list);
 ?>

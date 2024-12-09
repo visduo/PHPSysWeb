@@ -116,11 +116,11 @@ class SMTP
     /**
      * Debug output level.
      * Options:
-     * * self::DEBUG_OFF (`0`) No debug output, default
-     * * self::DEBUG_CLIENT (`1`) Client commands
-     * * self::DEBUG_SERVER (`2`) Client commands and server responses
-     * * self::DEBUG_CONNECTION (`3`) As DEBUG_SERVER plus connection status
-     * * self::DEBUG_LOWLEVEL (`4`) Low-level data output, all messages.
+     * * self::DEBUG_OFF (0) No debug output, default
+     * * self::DEBUG_CLIENT (1) Client commands
+     * * self::DEBUG_SERVER (2) Client commands and server responses
+     * * self::DEBUG_CONNECTION (3) As DEBUG_SERVER plus connection status
+     * * self::DEBUG_LOWLEVEL (4) Low-level data output, all messages.
      *
      * @var int
      */
@@ -129,21 +129,21 @@ class SMTP
     /**
      * How to handle debug output.
      * Options:
-     * * `echo` Output plain-text as-is, appropriate for CLI
-     * * `html` Output escaped, line breaks converted to `<br>`, appropriate for browser output
-     * * `error_log` Output to error log as configured in php.ini
+     * * echo Output plain-text as-is, appropriate for CLI
+     * * html Output escaped, line breaks converted to <br>, appropriate for browser output
+     * * error_log Output to error log as configured in php.ini
      * Alternatively, you can provide a callable expecting two params: a message string and the debug level:
      *
-     * ```php
+     * php
      * $smtp->Debugoutput = function($str, $level) {echo "debug level $level; message: $str";};
-     * ```
+     * 
      *
-     * Alternatively, you can pass in an instance of a PSR-3 compatible logger, though only `debug`
+     * Alternatively, you can pass in an instance of a PSR-3 compatible logger, though only debug
      * level output is used:
      *
-     * ```php
+     * php
      * $mail->Debugoutput = new myPsr3Logger;
-     * ```
+     * 
      *
      * @var string|callable|\Psr\Log\LoggerInterface
      */
@@ -358,7 +358,7 @@ class SMTP
         $this->smtp_conn = $this->getSMTPConnection($host, $port, $timeout, $options);
 
         if ($this->smtp_conn === false) {
-            //Error info already set inside `getSMTPConnection()`
+            //Error info already set inside getSMTPConnection()
             return false;
         }
 
@@ -869,7 +869,7 @@ class SMTP
      * Parse a reply to HELO/EHLO command to discover server extensions.
      * In case of HELO, the only parameter that can be discovered is a server name.
      *
-     * @param string $type `HELO` or `EHLO`
+     * @param string $type HELO or EHLO
      */
     protected function parseHelloFields($type)
     {
@@ -1289,7 +1289,7 @@ class SMTP
                     self::DEBUG_LOWLEVEL
                 );
 
-                //stream_select returns false when the `select` system call is interrupted
+                //stream_select returns false when the select system call is interrupted
                 //by an incoming signal, try the select again
                 if (stripos($message, 'interrupted system call') !== false) {
                     $this->edebug(

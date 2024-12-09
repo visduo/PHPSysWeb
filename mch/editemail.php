@@ -16,7 +16,7 @@ if(request::post("action") == "sendSmscode") {
         $_SESSION["mchUser_email_sendtime"] = datehelper::currentSeconds();
         response::success("发送成功");
     } else {
-        response::success("发送失败");
+        response::failure("发送失败");
     }
 } else if(request::post("action") == "edit") {
     $email = request::post("email");
@@ -30,7 +30,7 @@ if(request::post("action") == "sendSmscode") {
         unset($_SESSION["mchUser_email_account"]);
         unset($_SESSION["mchUser_email_smscode"]);
         unset($_SESSION["mchUser_email_sendtime"]);
-        response::falure("邮箱验证码已失效");
+        response::failure("邮箱验证码已失效");
     }
     
     if($email == $_SESSION["mchUser_email_account"] && $smscode == $_SESSION["mchUser_email_smscode"]) {
@@ -39,12 +39,12 @@ if(request::post("action") == "sendSmscode") {
         $mchUser = $_SESSION["mchUser"];
         $userId = $mchUser["id"];
         
-        $sqlStr = "UPDATE `sys_mch_user`
-            SET `email` = '$email', `email_verify` = 1 WHERE `id` = '$userId'";
+        $sqlStr = "UPDATE sys_mch_user
+            SET email = '$email', email_verify = 1 WHERE id = '$userId'";
         $mysqlObj->executeUpdate($sqlStr);
         
         // 重新设置会话数据
-        $_SESSION["mchUser"] = $mysqlObj->executeQuery("SELECT * FROM `sys_mch_user` WHERE `id` = '$userId'")[0];
+        $_SESSION["mchUser"] = $mysqlObj->executeQuery("SELECT * FROM sys_mch_user WHERE id = '$userId'")[0];
         
         // 删除会话
         unset($_SESSION["mchUser_email_account"]);
@@ -53,7 +53,7 @@ if(request::post("action") == "sendSmscode") {
         
         response::success("修改成功");
     } else {
-        response::falure("邮箱验证码错误");
+        response::failure("邮箱验证码错误");
     }
 }
 ?>
@@ -94,7 +94,7 @@ if(request::post("action") == "sendSmscode") {
                                             <div class="mb-3">
                                                 <label class="form-label">验证状态 <span class="text-danger">*</span></label>
                                                 <input type="text" class="form-control" value="<?php
-                                                if($_SESSION["mchUser"]["telephone_verify"] == 1) {
+                                                if($_SESSION["mchUser"]["email_verify"] == 1) {
                                                     echo "已验证";
                                                 } else {
                                                     echo "未验证";

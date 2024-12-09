@@ -17,7 +17,7 @@ class response {
         exit(json_encode($result));
     }
     
-    public static function falure($message, $data = null) {
+    public static function failure($message, $data = null) {
         // 统一响应失败状态
         
         $result = array(

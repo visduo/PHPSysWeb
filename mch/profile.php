@@ -10,12 +10,12 @@ if(request::post("action") == "editInfo") {
     $mchUser = $_SESSION["mchUser"];
     $userId = $mchUser["id"];
     
-    $sqlStr = "UPDATE `sys_mch_user`
-            SET `qqnumber` = '$qqnumber' WHERE `id` = '$userId'";
+    $sqlStr = "UPDATE sys_mch_user
+            SET qqnumber = '$qqnumber' WHERE id = '$userId'";
     $mysqlObj->executeUpdate($sqlStr);
     
     // 重新设置会话数据
-    $_SESSION["mchUser"] = $mysqlObj->executeQuery("SELECT * FROM `sys_mch_user` WHERE `id` = '$userId'")[0];
+    $_SESSION["mchUser"] = $mysqlObj->executeQuery("SELECT * FROM sys_mch_user WHERE id = '$userId'")[0];
     
     response::success("修改成功");
 } else if(request::post("action") == "editPassword") {
@@ -32,9 +32,9 @@ if(request::post("action") == "editInfo") {
         $newSalts = encrypt::randomSalts();
         $newPassword = encrypt::md5($newPassword, $newSalts);
         
-        $sqlStr = "UPDATE `sys_mch_user`
-            SET `password` = '$newPassword', `salts` = '$newSalts'
-            WHERE `id` = '$userId'";
+        $sqlStr = "UPDATE sys_mch_user
+            SET password = '$newPassword', salts = '$newSalts'
+            WHERE id = '$userId'";
         
         $mysqlObj->executeUpdate($sqlStr);
         
@@ -43,7 +43,7 @@ if(request::post("action") == "editInfo") {
         
         response::success("修改成功");
     } else {
-        response::falure("旧密码错误");
+        response::failure("旧密码错误");
     }
 }
 ?>

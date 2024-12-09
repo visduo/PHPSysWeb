@@ -8,10 +8,10 @@ if(request::post("action") == "delete") {
     $userId = request::post("id");
     if(!$userId || $userId == "") {
         // 未传递用户id
-        response::falure("用户id不能为空");
+        response::failure("用户id不能为空");
     } else if($userId == $_SESSION["adminUser"]["id"]) {
         // 不能删除自己
-        response::falure("禁止删除");
+        response::failure("禁止删除");
     }
     
     $sqlStr = "SELECT * FROM sys_admin_user WHERE id = $userId";
@@ -19,7 +19,7 @@ if(request::post("action") == "delete") {
     
     if(count($result) == 0) {
         // 用户id不存在
-        response::falure("用户id不存在");
+        response::failure("用户id不存在");
     }
     
     $sqlStr = "DELETE FROM sys_admin_user WHERE id = '$userId'";
@@ -35,14 +35,14 @@ if(request::post("action") == "delete") {
 // 拼接查询条件
 $sqlStr_search = " WHERE 1=1";
 if (request::get("searchAccount") != "") {
-    $sqlStr_search .= " AND `account` LIKE '%".request::get("searchAccount")."%'";
+    $sqlStr_search .= " AND account LIKE '%".request::get("searchAccount")."%'";
 }
 if (request::get("searchRemarks") != "") {
-    $sqlStr_search .= " AND `remarks` LIKE '%".request::get("searchRemarks")."%'";
+    $sqlStr_search .= " AND remarks LIKE '%".request::get("searchRemarks")."%'";
 }
 
 // 查询数据总数
-$sqlStr_count = "SELECT COUNT(1) AS count FROM `sys_admin_user` AS log"
+$sqlStr_count = "SELECT COUNT(1) AS count FROM sys_admin_user AS log"
                     .$sqlStr_search;
 $totals = $mysqlObj->executeQuery($sqlStr_count)[0]["count"];
 
@@ -50,7 +50,7 @@ $totals = $mysqlObj->executeQuery($sqlStr_count)[0]["count"];
 $pagehelper = new pagehelper($totals, 10, request::get("pageNo"));
 
 // 查询数据列表
-$sqlStr_list = "SELECT * FROM `sys_admin_user`"
+$sqlStr_list = "SELECT * FROM sys_admin_user"
                     .$sqlStr_search
                     ." LIMIT ".$pagehelper->limit." ,".$pagehelper->pageSize;
 $dataList = $mysqlObj->executeQuery($sqlStr_list);

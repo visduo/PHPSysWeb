@@ -12,7 +12,7 @@ if(request::post("action") == "login") {
     $account = request::post("account");
     $password = request::post("password");
 
-    $sqlStr = "SELECT * FROM `sys_mch_user` WHERE `account` = '$account'";
+    $sqlStr = "SELECT * FROM sys_mch_user WHERE account = '$account'";
     $result = $mysqlObj->executeQuery($sqlStr);
 
     // 数据库查询结果数组长度为0，即账号不存在
@@ -23,7 +23,7 @@ if(request::post("action") == "login") {
         if(encrypt::md5($password, $mchUser["salts"]) == $mchUser["password"]) {
             // 用户状态校验
             if($mchUser["status"] != 1) {
-                response::falure("该用户已被禁用");
+                response::failure("该用户已被禁用");
             }
             
             // 校验通过，将平台用户对象存入会话
@@ -35,16 +35,16 @@ if(request::post("action") == "login") {
             $clientua = client::ua();
             $createTime = datehelper::currentSeconds();
             
-            $sqlStr = "INSERT INTO `sys_mch_user_log` (`user_id`, `client_ip`, `client_ua`, `create_time`)
+            $sqlStr = "INSERT INTO sys_mch_user_log (user_id, client_ip, client_ua, create_time)
                         VALUES ('$userId', '$clientip', '$clientua', '$createTime')";
             $mysqlObj->executeUpdate($sqlStr);
             
             response::success("登录成功");
         } else {
-            response::falure("用户密码错误");
+            response::failure("用户密码错误");
         }
     } else {
-        response::falure("用户账号不存在");
+        response::failure("用户账号不存在");
     }
 }
 ?>

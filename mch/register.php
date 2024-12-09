@@ -14,7 +14,7 @@ if(request::post("action") == "register") {
     $sqlStr = "SELECT * FROM sys_mch_user WHERE account = '$account'";
     $result = $mysqlObj->executeQuery($sqlStr);
     if(count($result) > 0) {
-        response::falure("该用户账号已存在");
+        response::failure("该用户账号已存在");
     }
     
     // 密码MD5盐值加密

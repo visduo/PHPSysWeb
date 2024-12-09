@@ -80,7 +80,7 @@ if(basename($_SERVER["PHP_SELF"]) == basename(__FILE__)) exit("Access denied");
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="#" class="nav-link"> <i class="nav-icon bi bi-file-text"></i>
+                            <a href="/admin/emailsmslog.php" class="nav-link"> <i class="nav-icon bi bi-file-text"></i>
                                 <p>邮箱发信日志</p>
                             </a>
                         </li>

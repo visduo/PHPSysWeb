@@ -1,21 +1,17 @@
 <?php
 require_once $_SERVER['DOCUMENT_ROOT']."/helper/common.php";
-require_once $_SERVER['DOCUMENT_ROOT']."/mch/authorize.php";
+require_once $_SERVER['DOCUMENT_ROOT']."/admin/authorize.php";
 
 $mysqlObj = new sqlhelper();
 
 // 拼接查询条件
-// 只能查询自己的登录日志
-$userId = $_SESSION["mchUser"]["id"];
-$sqlStr_search = " WHERE log.user_id = '$userId'";
-if (request::get("searchClientip") != "") {
-    $sqlStr_search .= " AND log.client_ip LIKE '%".request::get("searchClientip")."%'";
+$sqlStr_search = " WHERE 1=1";
+if (request::get("searchReceiver") != "") {
+    $sqlStr_search .= " AND receiver LIKE '%".request::get("searchReceiver")."%'";
 }
 
 // 查询数据总数
-$sqlStr_count = "SELECT COUNT(1) AS count FROM sys_mch_user_log AS log
-                    LEFT JOIN sys_mch_user AS user
-                    ON log.user_id = user.id"
+$sqlStr_count = "SELECT COUNT(1) AS count FROM sys_email_sms_log"
                     .$sqlStr_search;
 $totals = $mysqlObj->executeQuery($sqlStr_count)[0]["count"];
 
@@ -23,9 +19,7 @@ $totals = $mysqlObj->executeQuery($sqlStr_count)[0]["count"];
 $pagehelper = new pagehelper($totals, 10, request::get("pageNo"));
 
 // 查询数据列表
-$sqlStr_list = "SELECT log.*, user.account FROM sys_mch_user_log AS log
-                    LEFT JOIN sys_mch_user AS user
-                    ON log.user_id = user.id"
+$sqlStr_list = "SELECT * FROM sys_email_sms_log AS log"
                     .$sqlStr_search
                     ." ORDER BY create_time DESC"
                     ." LIMIT ".$pagehelper->limit." ,".$pagehelper->pageSize;
@@ -34,21 +28,21 @@ $dataList = $mysqlObj->executeQuery($sqlStr_list);
 <!DOCTYPE html>
 <html lang="cn">
 <head>
-    <title>平台用户登录日志 - 数据管理系统(平台端)</title>
-    <?php require_once $_SERVER['DOCUMENT_ROOT'] . "/mch/layouts/head.php";?>
+    <title>邮箱发信日志 - 数据管理系统(管理端)</title>
+    <?php require_once $_SERVER['DOCUMENT_ROOT'] . "/admin/layouts/head.php";?>
 </head>
 <body class="layout-fixed sidebar-expand-lg bg-body-tertiary">
     <div class="app-wrapper">
         <?php
-            require_once $_SERVER['DOCUMENT_ROOT'] . "/mch/layouts/nav.php";
-            require_once $_SERVER['DOCUMENT_ROOT'] . "/mch/layouts/aside.php";
+            require_once $_SERVER['DOCUMENT_ROOT'] . "/admin/layouts/nav.php";
+            require_once $_SERVER['DOCUMENT_ROOT'] . "/admin/layouts/aside.php";
         ?>
         <main class="app-main">
             <div class="app-content-header">
                 <div class="container-fluid">
                     <div class="row">
                         <div class="col-12">
-                            <h3>平台用户登录日志</h3>
+                            <h3>邮箱发信日志</h3>
                         </div>
                     </div>
                 </div>
@@ -64,8 +58,8 @@ $dataList = $mysqlObj->executeQuery($sqlStr_list);
                                         <div class="row">
                                             <div class="col-lg-3 col-12 mb-3">
                                                 <div class="input-group">
-                                                    <span class="input-group-text">登录IP</span>
-                                                    <input type="text" class="form-control" name="searchClientip" value="<?php echo request::get("searchClientip")?>">
+                                                    <span class="input-group-text">用户账号</span>
+                                                    <input type="text" class="form-control" name="searchReceiver" value="<?php echo request::get("searchReceiver")?>">
                                                 </div>
                                             </div>
                                             <div class="col-lg-3 col-6 mb-3">
@@ -79,10 +73,10 @@ $dataList = $mysqlObj->executeQuery($sqlStr_list);
                                         <thead>
                                         <tr>
                                             <th>#</th>
-                                            <th>用户账号</th>
-                                            <th>客户端IP</th>
-                                            <th>客户端UA</th>
-                                            <th>登录时间</th>
+                                            <th>接收对象</th>
+                                            <th>发送内容</th>
+                                            <th>发送结果</th>
+                                            <th>发送时间</th>
                                         </tr>
                                         </thead>
                                         <tbody>
@@ -91,9 +85,13 @@ $dataList = $mysqlObj->executeQuery($sqlStr_list);
                                             foreach ($dataList as $key => $value) {
                                                 echo "<tr>";
                                                 echo "<td style='width: 15px;'>".($key+1)."</td>";
-                                                echo "<td>".$value["account"]."</td>";
-                                                echo "<td>".$value["client_ip"]."</td>";
-                                                echo "<td style='width: 600px;' class='text-wrap'>".$value["client_ua"]."</td>";
+                                                echo "<td>".$value["receiver"]."</td>";
+                                                echo "<td>".$value["content"]."</td>";
+                                                if ($value["result"] == 1) {
+                                                    echo "<td><span class='badge text-bg-success'>成功</span></td>";
+                                                } else {
+                                                    echo "<td><span class='badge text-bg-danger'>失败(".$value["result_message"].")</span></td>";
+                                                }
                                                 echo "<td>".datehelper::toDateTime($value["create_time"])."</td>";
                                                 echo "</tr>";
                                             }
@@ -116,9 +114,9 @@ $dataList = $mysqlObj->executeQuery($sqlStr_list);
                 </div>
             </div>
         </main>
-        <?php require_once $_SERVER['DOCUMENT_ROOT'] . "/mch/layouts/footer.php";?>
+        <?php require_once $_SERVER['DOCUMENT_ROOT'] . "/admin/layouts/footer.php";?>
     </div>
-    <?php require_once $_SERVER['DOCUMENT_ROOT'] . "/mch/layouts/script.php";?>
+    <?php require_once $_SERVER['DOCUMENT_ROOT'] . "/admin/layouts/script.php";?>
     <script>
         function setPageNo(pageNo) {
             $("#searchForm input[name='pageNo']").val(pageNo);
