@@ -7,10 +7,12 @@ require_once $_SERVER["DOCUMENT_ROOT"]."/helper/datehelper.php";
 require_once $_SERVER['DOCUMENT_ROOT']."/helper/phpmailer/Exception.php";
 require_once $_SERVER['DOCUMENT_ROOT']."/helper/phpmailer/PHPMailer.php";
 require_once $_SERVER['DOCUMENT_ROOT']."/helper/phpmailer/SMTP.php";
+require_once $_SERVER['DOCUMENT_ROOT']."/helper/qcloudsms/index.php";
 
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\SMTP;
 use PHPMailer\PHPMailer\Exception;
+use Qcloud\Sms\SmsSingleSender;
 
 // 验证码工具类
 class smshelper {
@@ -79,6 +81,53 @@ class smshelper {
         
         return $status;
     }
-
+    
+    public function sendTencentSms($receiver, $smscode) {
+        // 发送短信验证码
+        $mysqlObj = new sqlhelper();
+        
+        // 查询邮箱发信接口配置
+        $sqlStr = "SELECT * FROM sys_tencent_sms_conf WHERE id = 1";
+        $result = $mysqlObj->executeQuery($sqlStr);
+        $tencentSmsConf = $result[0];
+        
+        if($tencentSmsConf["status"] != 1) {
+            // 接口未开启
+            return false;
+        }
+        
+        // 短信应用SDK AppID
+        $appid = $tencentSmsConf["sdk_appid"];
+        // 短信应用SDK AppKey
+        $appkey = $tencentSmsConf["sdk_appkey"];
+        // 需要发送短信的手机号码
+        $phoneNumbers = [$receiver];
+        // 短信模板id
+        $templateId = 965684;
+        // 短信签名
+        $smsSign = $tencentSmsConf["signature"];
+        
+        // 实例化一个单发短信客户端
+        $ssender = new SmsSingleSender($appid, $appkey);
+        // 短信模板参数列表
+        $params = [$smscode];
+        // 发送短信
+        $status = $ssender->sendWithParam("86", $phoneNumbers[0], $templateId,
+            $params, $smsSign, "", "");
+        $status = json_decode($status);
+        
+        $result = $status->result == 0 ? 1 : 0;
+        $result_message = $status->errmsg;
+        $clientip = client::ip();
+        $clientua = client::ua();
+        $createTime = datehelper::currentSeconds();
+        
+        // 保存发信日志
+        $sqlStr = "INSERT INTO sys_tencent_sms_log (receiver, content, result, result_message, client_ip, client_ua, create_time)
+                   VALUES ('$receiver', '$smscode', '$result', '$result_message', '$clientip', '$clientua', '$createTime')";
+        $mysqlObj->executeUpdate($sqlStr);
+        
+        return $status;
+    }
 
 }

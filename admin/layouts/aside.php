@@ -22,7 +22,7 @@ if(basename($_SERVER["PHP_SELF"]) == basename(__FILE__)) exit("Access denied");
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="#" class="nav-link"> <i class="nav-icon bi bi-person-hearts"></i>
+                    <a href="/admin/mchuserlist.php" class="nav-link"> <i class="nav-icon bi bi-person-hearts"></i>
                         <p>平台用户管理</p>
                     </a>
                 </li>
@@ -45,7 +45,7 @@ if(basename($_SERVER["PHP_SELF"]) == basename(__FILE__)) exit("Access denied");
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="#" class="nav-link"> <i class="nav-icon bi bi-chat-left-dots-fill"></i>
+                            <a href="/admin/tencentsmsconf.php" class="nav-link"> <i class="nav-icon bi bi-chat-left-dots-fill"></i>
                                 <p>短信发信接口配置</p>
                             </a>
                         </li>
@@ -75,7 +75,7 @@ if(basename($_SERVER["PHP_SELF"]) == basename(__FILE__)) exit("Access denied");
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="#" class="nav-link"> <i class="nav-icon bi bi-file-text"></i>
+                            <a href="/admin/tencentsmslog.php" class="nav-link"> <i class="nav-icon bi bi-file-text"></i>
                                 <p>短信发信日志</p>
                             </a>
                         </li>

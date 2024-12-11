@@ -52,7 +52,7 @@ require_once $_SERVER['DOCUMENT_ROOT']."/mch/authorize.php";
                                     </h3>
                                     <p class="mb-0">手机号码：<?php echo $_SESSION["mchUser"]["telephone"] ?></p>
                                 </div>
-                                <a href="#" class="small-box-footer link-light link-underline-opacity-0 link-underline-opacity-50-hover">
+                                <a href="/mch/edittelephone.php" class="small-box-footer link-light link-underline-opacity-0 link-underline-opacity-50-hover">
                                     立即修改
                                 </a>
                             </div>
@@ -69,7 +69,7 @@ require_once $_SERVER['DOCUMENT_ROOT']."/mch/authorize.php";
                                         }
                                         ?>
                                     </h3>
-                                    <p class="mb-0">邮箱号码：<?php echo $_SESSION["mchUser"]["email"] ?></p>
+                                    <p class="mb-0">邮箱地址：<?php echo $_SESSION["mchUser"]["email"] ?></p>
                                 </div>
                                 <a href="/mch/editemail.php" class="small-box-footer link-light link-underline-opacity-0 link-underline-opacity-50-hover">
                                     立即修改
