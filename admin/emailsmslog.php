@@ -86,7 +86,7 @@ $dataList = $mysqlObj->executeQuery($sqlStr_list);
                                                 echo "<tr>";
                                                 echo "<td style='width: 15px;'>".($key+1)."</td>";
                                                 echo "<td>".$value["receiver"]."</td>";
-                                                echo "<td>".$value["content"]."</td>";
+                                                echo "<td>".strip_tags($value["content"])."</td>";
                                                 if ($value["result"] == 1) {
                                                     echo "<td><span class='badge text-bg-success'>成功</span></td>";
                                                 } else {
