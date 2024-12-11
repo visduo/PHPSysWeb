@@ -60,7 +60,7 @@ class smshelper {
         // 设置邮件主题
         $mail->Subject = "请查收邮箱验证码";
         // 添加邮件正文
-        $mail->Body = "<h1>您的验证码是：".$smscode."，有效时间5分钟。</h1>";
+        $mail->Body = "您的验证码是：".$smscode."，有效时间5分钟。";
         // $mail->isHTML(true);
         
         // 发送邮件，返回状态
