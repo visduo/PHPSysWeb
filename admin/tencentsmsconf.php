@@ -13,14 +13,13 @@ if(request::post("action") == "edit") {
     $sdk_appid = request::post("sdk_appid");
     $sdk_appkey = request::post("sdk_appkey");
     $signature = request::post("signature");
-    $secret_id = request::post("secret_id");
-    $secret_key = request::post("secret_key");
+    $template_id = request::post("template_id");
     $status = request::post("status");
     
     $sqlStr = "UPDATE sys_tencent_sms_conf
             SET sdk_appid = '$sdk_appid', sdk_appkey = '$sdk_appkey',
-            signature = '$signature', secret_id = '$secret_id',
-            secret_key = '$secret_key', status = '$status' WHERE id = 1";
+            signature = '$signature', template_id = '$template_id',
+            status = '$status' WHERE id = 1";
     $mysqlObj->executeUpdate($sqlStr);
     
     response::success("修改成功");
@@ -57,8 +56,8 @@ if(request::post("action") == "edit") {
                                     <div class="row">
                                         <div class="col-lg-6 col-12">
                                             <div class="mb-3">
-                                                <label class="form-label">SdkAppid <span class="text-danger">*</span></label>
-                                                <input type="text" class="form-control" placeholder="请输入SdkAppid" id="sdk_appid" value="<?php echo $tencentSmsConf["sdk_appid"] ?>">
+                                                <label class="form-label">SdkAppId <span class="text-danger">*</span></label>
+                                                <input type="text" class="form-control" placeholder="请输入SdkAppId" id="sdk_appid" value="<?php echo $tencentSmsConf["sdk_appid"] ?>">
                                             </div>
                                             <div class="mb-3">
                                                 <label class="form-label">SdkAppKey <span class="text-danger">*</span></label>
@@ -69,12 +68,8 @@ if(request::post("action") == "edit") {
                                                 <input type="text" class="form-control" placeholder="请输入短信签名" id="signature" value="<?php echo $tencentSmsConf["signature"] ?>">
                                             </div>
                                             <div class="mb-3">
-                                                <label class="form-label">SecretId <span class="text-danger">*</span></label>
-                                                <input type="text" class="form-control" placeholder="请输入SecretId" id="secret_id" value="<?php echo $tencentSmsConf["secret_id"] ?>">
-                                            </div>
-                                            <div class="mb-3">
-                                                <label class="form-label">SecretKey <span class="text-danger">*</span></label>
-                                                <input type="password" class="form-control" placeholder="请输入SecretKey" id="secret_key" value="<?php echo $tencentSmsConf["secret_key"] ?>">
+                                                <label class="form-label">短信模板id <span class="text-danger">*</span></label>
+                                                <input type="text" class="form-control" placeholder="请输入短信模板id" id="template_id" value="<?php echo $tencentSmsConf["template_id"] ?>">
                                             </div>
                                             <div class="mb-3">
                                                 <label class="form-label">接口状态 <span class="text-danger">*</span></label>
@@ -104,12 +99,11 @@ if(request::post("action") == "edit") {
             let sdk_appid = $("#sdk_appid").val();
             let sdk_appkey = $("#sdk_appkey").val();
             let signature = $("#signature").val();
-            let secret_id = $("#secret_id").val();
-            let secret_key = $("#secret_key").val();
+            let template_id = $("#template_id").val();
             let status = $("#status").val();
             
             if(sdk_appid == "") {
-                alert("请输入SdkAppid");
+                alert("请输入SdkAppId");
                 return false;
             } else if(sdk_appkey == "") {
                 alert("请输入SdkAppKey");
@@ -117,11 +111,8 @@ if(request::post("action") == "edit") {
             } else if(signature == "") {
                 alert("请输入短信签名");
                 return false;
-            } else if(secret_id == "") {
-                alert("请输入SecretId");
-                return false;
-            } else if(secret_key == "") {
-                alert("请输入SecretKey");
+            } else if(template_id == "") {
+                alert("请输入短信模板id");
                 return false;
             } else if(status == "") {
                 alert("请选择接口状态");
@@ -135,8 +126,7 @@ if(request::post("action") == "edit") {
                     "sdk_appid": sdk_appid,
                     "sdk_appkey": sdk_appkey,
                     "signature": signature,
-                    "secret_id": secret_id,
-                    "secret_key": secret_key,
+                    "template_id": template_id,
                     "status": status,
                     "action": "edit"
                 },

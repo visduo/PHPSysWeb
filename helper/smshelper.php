@@ -86,7 +86,7 @@ class smshelper {
         // 发送短信验证码
         $mysqlObj = new sqlhelper();
         
-        // 查询邮箱发信接口配置
+        // 查询短信发信接口配置
         $sqlStr = "SELECT * FROM sys_tencent_sms_conf WHERE id = 1";
         $result = $mysqlObj->executeQuery($sqlStr);
         $tencentSmsConf = $result[0];
@@ -101,9 +101,9 @@ class smshelper {
         // 短信应用SDK AppKey
         $appkey = $tencentSmsConf["sdk_appkey"];
         // 需要发送短信的手机号码
-        $phoneNumbers = [$receiver];
+        $phoneNumbers = $receiver;
         // 短信模板id
-        $templateId = 965684;
+        $templateId = $tencentSmsConf["template_id"];
         // 短信签名
         $smsSign = $tencentSmsConf["signature"];
         
@@ -112,7 +112,7 @@ class smshelper {
         // 短信模板参数列表
         $params = [$smscode];
         // 发送短信
-        $status = $ssender->sendWithParam("86", $phoneNumbers[0], $templateId,
+        $status = $ssender->sendWithParam("86", $phoneNumbers, $templateId,
             $params, $smsSign, "", "");
         $status = json_decode($status);
         
